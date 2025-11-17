@@ -16,18 +16,18 @@ Install the Lacework CLI and Terraform to generate configurations for deployment
 
 1. Log in to FortiCNAPP Console (eg via https://forticloud.com)
 2. In FortiCNAPP, once logged in, navigate to **Settings** > **API Keys** > **Add New**
-3. Download the API key JSON file to your Mac
+3. Download the API key JSON file
 
 ### 2. Install Lacework CLI
 
 Docs: [Get started with the Lacework FortiCNAPP CLI](https://docs.fortinet.com/document/forticnapp/latest/cli-reference/68020/get-started-with-the-lacework-forticnapp-cli)
 
-**Option 1: Homebrew (Recommended)**
+**Option 1: Homebrew (for Mac)**
 ```bash
 brew install lacework/tap/lacework-cli
 ```
 
-**Option 2: Installation Script**
+**Option 2: Installation Script (bash)**
 ```bash
 curl https://raw.githubusercontent.com/lacework/go-sdk/main/cli/install.sh | sudo bash
 ```
@@ -49,7 +49,7 @@ lacework account list
 
 ### 3. Install Terraform
 
-**Option 1: Homebrew (Recommended)**
+**Option 1: Homebrew (Mac)**
 ```bash
 brew install terraform
 ```
