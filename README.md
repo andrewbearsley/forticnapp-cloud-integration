@@ -201,13 +201,11 @@ Or verify in Console: **Settings > Integrations > Cloud Accounts**
 
 ## Agent Installation
 
-## AWS Agent Installation
+### AWS Agent Installation
 
 Docs: [Lacework Agent AWS Install](https://docs.fortinet.com/document/forticnapp/latest/cli-reference/784655/lacework-agent-aws-install)
 
 The Lacework CLI provides automated agent installation methods for AWS EC2 instances.
-
-### Installation Methods
 
 **EC2 Instance Connect (ec2ic):**
 ```bash
@@ -230,24 +228,24 @@ lacework agent aws-install ec2ssm --instance-id i-1234567890abcdef0 --region us-
 lacework agent list
 ```
 
-## GCP Agent Installation
+### GCP Agent Installation
 
 Docs: [Lacework Agent GCP Install](https://docs.fortinet.com/document/forticnapp/latest/cli-reference/965206/lacework-agent-gcp-install)
 
 The Lacework CLI provides automated agent installation methods for GCP instances.
 
 ```bash
-lacework agent gcp-install
+lacework agent gcp-install osl <gcp_username> --token <token>
 #   -h, --help   help for gcp-install
 ```
 
-## SSH-based Agent Installation (eg. for Azure)
+### SSH-based Agent Installation (eg. for Azure)
 
 Docs: [Lacework Agent Install](https://docs.fortinet.com/document/forticnapp/latest/cli-reference/178682)
 
 The Lacework CLI provides automated agent installation methods via SSH.
 
 ```bash
-lacework agent install
+lacework agent install <user@host> -i /path/to/your/key --token <token>
 #   -h, --help   help for azure-install
 ```
