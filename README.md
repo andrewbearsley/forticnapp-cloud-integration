@@ -53,21 +53,6 @@ lacework configure -j [path_to_api_key.json]
 lacework account list
 ```
 
-## Terraform For AWS CloudShell (Azure and GCP have Terraform pre-installed in their cloud shells)
-
-### AWS CloudShell
-
-```bash
-# Download and install Terraform (replace VERSION with latest, e.g., 1.6.0)
-VERSION=$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M '.current_version')
-wget https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_linux_amd64.zip
-unzip terraform_${VERSION}_linux_amd64.zip -d "$HOME/bin"
-rm terraform_${VERSION}_linux_amd64.zip
-
-# Verify installation
-terraform version
-```
-
 ## Cloud Account Integration - AWS Control Tower - AWS Integration for inventory and audit logging via CloudFormation
 
 For AWS Organizations Using AWS Control Tower, cloudformation is recommended for the AWS Integration.
@@ -135,6 +120,21 @@ aws iam list-roles --query "Roles[?contains(RoleName, 'laceworkcwssarole')].Arn"
   ],
   "Resource": "*"
 }
+```
+
+## Terraform For AWS CloudShell (Azure and GCP have Terraform pre-installed in their cloud shells)
+
+### AWS CloudShell
+
+```bash
+# Download and install Terraform (replace VERSION with latest, e.g., 1.6.0)
+VERSION=$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M '.current_version')
+wget https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_linux_amd64.zip
+unzip terraform_${VERSION}_linux_amd64.zip -d "$HOME/bin"
+rm terraform_${VERSION}_linux_amd64.zip
+
+# Verify installation
+terraform version
 ```
 
 ## Cloud Account Integration - AWS - Agentless Workload Scanning via Terraform
