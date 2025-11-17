@@ -31,7 +31,7 @@ Setup uses each provider's cloud shell. Install Terraform and the Lacework CLI t
 - **Google Cloud Shell**: Click the three-dot menu > Upload file
 - **Azure Cloud Shell**: Click the Upload/Download files icon > Upload
 
-### 3. Install Lacework CLI in Cloud Shell (AWS, Azure, Google Cloud)
+### 3. Install Lacework CLI in Cloud Shell
 
 Docs: [Get started with the Lacework FortiCNAPP CLI](https://docs.fortinet.com/document/forticnapp/latest/cli-reference/68020/get-started-with-the-lacework-forticnapp-cli)
 
