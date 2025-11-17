@@ -6,7 +6,6 @@ Setup instructions for FortiCNAPP (Lacework) across AWS (Control Tower), GCP, an
 
 - Access to FortiCNAPP Console
 - Access to AWS CloudShell, Google Cloud Shell, and Azure Cloud Shell
-- Terraform installed in cloud shells
 
 ## Permissions
 
@@ -19,7 +18,7 @@ Ensure you have the necessary permissions configured for each cloud provider:
 
 ## FortiCNAPP Lacework CLI Setup
 
-Setup uses each provider's cloud shell. Terraform is pre-installed; the Lacework CLI generates configurations for deployment.
+Setup uses each provider's cloud shell. Install Terraform and the Lacework CLI to generate configurations for deployment.
 
 ### 1. Create an API Key
 
@@ -37,14 +36,12 @@ Setup uses each provider's cloud shell. Terraform is pre-installed; the Lacework
 Docs: [Get started with the Lacework FortiCNAPP CLI](https://docs.fortinet.com/document/forticnapp/latest/cli-reference/68020/get-started-with-the-lacework-forticnapp-cli)
 
 ```bash
-# 1. Create the persistent directory in your home folder
+# Create bin directory and add to PATH
 mkdir -p "$HOME/bin"
-
-# 2. Install the Lacework CLI binary into that directory
-curl -sSL https://raw.githubusercontent.com/lacework/go-sdk/main/cli/install.sh | sudo bash -s -- -d "$HOME/bin"
-
-# 3. Add the path to your .bashrc (for future sessions) and immediately activate it
 echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
+
+# 2. Install the Lacework CLI binary
+curl -sSL https://raw.githubusercontent.com/lacework/go-sdk/main/cli/install.sh | sudo bash -s -- -d "$HOME/bin"
 
 # 4. Verify Lacework CLI Installation
 lacework version
@@ -56,7 +53,22 @@ lacework configure -j [path_to_api_key.json]
 lacework account list
 ```
 
-## Cloud Account Integration Setup - AWS Integration (Control Tower)
+## Terraform For AWS CloudShell (Azure and GCP have Terraform pre-installed in their cloud shells)
+
+### AWS CloudShell
+
+```bash
+# Download and install Terraform (replace VERSION with latest, e.g., 1.6.0)
+VERSION=$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M '.current_version')
+wget https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_linux_amd64.zip
+unzip terraform_${VERSION}_linux_amd64.zip -d "$HOME/bin"
+rm terraform_${VERSION}_linux_amd64.zip
+
+# Verify installation
+terraform version
+```
+
+## Cloud Account Integration - AWS Control Tower - AWS Integration for inventory and audit logging via CloudFormation
 
 For AWS Organizations Using AWS Control Tower, cloudformation is recommended for the AWS Integration.
 
@@ -125,6 +137,26 @@ aws iam list-roles --query "Roles[?contains(RoleName, 'laceworkcwssarole')].Arn"
 }
 ```
 
+## Cloud Account Integration - AWS - Agentless Workload Scanning via Terraform
+
+Docs:
+- [Prerequisites](https://docs.fortinet.com/document/forticnapp/latest/administration-guide/122712/prerequisites)
+- [Integrating agentless workload scanning with AWS using Terraform](https://docs.fortinet.com/document/forticnapp/latest/administration-guide/744245/terraform)
+
+Steps:
+- [Integrating agentless workload scanning for AWS organization account with Terraform](https://docs.fortinet.com/document/forticnapp/latest/administration-guide/864699/integrating-agentless-workload-scanning-for-aws-organization-account-with-terraform)
+
+1. Generate Terraform configuration
+```bash
+lacework generate cloud-account aws agentless-workload-scanning
+```
+
+2. Deploy Terraform configuration
+```bash
+cd /home/cloudshell-user/lacework/aws
+terraform init
+terraform plan
+terraform apply
 ### GCP Integration - Automated Configuration
 
 Docs: [Google Cloud Integration - Automated Configuration](https://docs.fortinet.com/document/forticnapp/latest/administration-guide/756723/google-cloud-integration-automated-configuration)
