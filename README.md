@@ -5,43 +5,66 @@ Setup instructions for FortiCNAPP (Lacework) across AWS (Control Tower), GCP, an
 ## Prerequisites
 
 - Access to FortiCNAPP Console
-- Access to AWS CloudShell, Google Cloud Shell, and Azure Cloud Shell
+- macOS with Homebrew (recommended) or curl
+- AWS CLI, Google Cloud CLI, and Azure CLI installed and configured
 
 ## FortiCNAPP Lacework CLI Setup
 
-Setup uses each provider's cloud shell. Install Terraform and the Lacework CLI to generate configurations for deployment.
+Install the Lacework CLI and Terraform to generate configurations for deployment.
 
 ### 1. Create an API Key
 
 1. Log in to FortiCNAPP Console (eg via https://forticloud.com)
 2. In FortiCNAPP, once logged in, navigate to **Settings** > **API Keys** > **Add New**
-3. Download the API key JSON file
-4. Transfer API Key to Cloud Shell
+3. Download the API key JSON file to your Mac
 
-- **AWS CloudShell**: Click the Actions menu (☰) > Upload file
-- **Google Cloud Shell**: Click the three-dot menu > Upload file
-- **Azure Cloud Shell**: Click the Upload/Download files icon > Upload
-
-### 3. Install Lacework CLI in Cloud Shell
+### 2. Install Lacework CLI
 
 Docs: [Get started with the Lacework FortiCNAPP CLI](https://docs.fortinet.com/document/forticnapp/latest/cli-reference/68020/get-started-with-the-lacework-forticnapp-cli)
 
+**Option 1: Homebrew (Recommended)**
 ```bash
-# Create bin directory and add to PATH
-mkdir -p "$HOME/bin"
-echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
+brew install lacework/tap/lacework-cli
+```
 
-# 2. Install the Lacework CLI binary
-curl -sSL https://raw.githubusercontent.com/lacework/go-sdk/main/cli/install.sh | sudo bash -s -- -d "$HOME/bin"
+**Option 2: Installation Script**
+```bash
+curl https://raw.githubusercontent.com/lacework/go-sdk/main/cli/install.sh | sudo bash
+```
 
-# 4. Verify Lacework CLI Installation
+**Verify Installation:**
+```bash
 lacework version
+```
 
-# 5. Configure Lacework CLI with API Key
-lacework configure -j [path_to_api_key.json]
+**Configure CLI with API Key:**
+```bash
+lacework configure -j ~/Downloads/api_key.json
+```
 
-# 6. Verify Lacework CLI Configuration
+**Verify Configuration:**
+```bash
 lacework account list
+```
+
+### 3. Install Terraform
+
+**Option 1: Homebrew (Recommended)**
+```bash
+brew install terraform
+```
+
+**Option 2: Manual Installation**
+```bash
+# Download latest version
+VERSION=$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M '.current_version')
+curl -O https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_darwin_amd64.zip
+unzip terraform_${VERSION}_darwin_amd64.zip
+sudo mv terraform /usr/local/bin/
+rm terraform_${VERSION}_darwin_amd64.zip
+
+# Verify installation
+terraform version
 ```
 
 ## AWS with Control Tower - integration for inventory and audit logging via CloudFormation
@@ -113,18 +136,6 @@ aws iam list-roles --query "Roles[?contains(RoleName, 'laceworkcwssarole')].Arn"
 }
 ```
 
-### Install Terraform in CloudShell
-
-```bash
-# Download and install Terraform
-VERSION=$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M '.current_version')
-wget https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_linux_amd64.zip
-unzip terraform_${VERSION}_linux_amd64.zip -d "$HOME/bin"
-rm terraform_${VERSION}_linux_amd64.zip
-
-# Verify installation
-terraform version
-```
 
 ## AWS - Agentless Workload Scanning via Terraform
 
@@ -142,7 +153,7 @@ lacework generate cloud-account aws agentless-workload-scanning
 
 2. Deploy Terraform configuration
 ```bash
-cd /home/cloudshell-user/lacework/aws
+cd ~/lacework/aws
 terraform init
 terraform plan
 terraform apply
@@ -163,7 +174,7 @@ lacework generate cloud-account gcp
 
 2. Deploy Terraform configuration
 ```bash
-cd /home/cloudshell-user/lacework/gcp
+cd ~/lacework/gcp
 terraform init
 terraform plan
 terraform apply
@@ -183,7 +194,7 @@ lacework generate cloud-account azure
 
 2. Deploy Terraform configuration
 ```bash
-cd /home/cloudshell-user/lacework/azure
+cd ~/lacework/azure
 terraform init
 terraform plan
 terraform apply
