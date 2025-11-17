@@ -7,15 +7,6 @@ Setup instructions for FortiCNAPP (Lacework) across AWS (Control Tower), GCP, an
 - Access to FortiCNAPP Console
 - Access to AWS CloudShell, Google Cloud Shell, and Azure Cloud Shell
 
-## Permissions
-
-Ensure you have the necessary permissions configured for each cloud provider:
-
-- **AWS**: [AWS Configuration Integration Prerequisites](https://docs.fortinet.com/document/forticnapp/latest/administration-guide/618119/aws-configuration-integration-prerequisites) | [AWS Integration - Terraform from AWS CloudShell](https://docs.fortinet.com/document/forticnapp/latest/administration-guide/283460/aws-integration-terraform-from-aws-cloudshell)
-- **GCP**: [Storage-Based Google Cloud Integration - Terraform from Google Cloud Shell](https://docs.fortinet.com/document/forticnapp/latest/administration-guide/305117/storage-based-google-cloud-integration-terraform-from-google-cloud-shell)
-- **Azure**: [Create an Azure App for Integration](https://docs.fortinet.com/document/forticnapp/latest/administration-guide/644235)
-
-
 ## FortiCNAPP Lacework CLI Setup
 
 Setup uses each provider's cloud shell. Install Terraform and the Lacework CLI to generate configurations for deployment.
@@ -159,38 +150,17 @@ terraform plan
 terraform apply
 ```
 
-## Cloud Account Integration - GCP - Inventory and Audit Logging via Terraform
+## Cloud Account Integration - GCP - Configuration, Audit Log and Agentless Workload Scanning via Terraform
 
 ### GCP Integration - Guided Configuration
-Docs: [GCP Integration - Guided Configuration](https://docs.fortinet.com/document/forticnapp/latest/administration-guide/191526/gcp-integration-guided-configuration)
+Docs: 
+- [Lacework Generate Cloud Account GCP](https://docs.fortinet.com/document/forticnapp/latest/cli-reference/250658/lacework-generate-cloud-account-gcp)
+- [Google Cloud Integration - Terraform from any supported host](https://docs.fortinet.com/document/forticnapp/latest/administration-guide/099137/pub-sub-based-google-cloud-integration-terraform-from-any-supported-host)
 
 1. Generate Terraform configuration
 ```bash
-lacework generate cloud-account gcp  \
- --configuration --configuration_integration_name ConfigIntegName \
- --audit_log --use_pub_sub --audit_log_integration_name AuditLogIntegName \
- --organization_integration         \
- --organization_id OrganizationId   \
- --project_id ProjectId             \
- --noninteractive
- ```
-
- 2. Deploy Terraform configuration
-```bash
-cd /home/cloudshell-user/lacework/gcp
-terraform init
-terraform plan
-terraform apply
-```
-
-## Cloud Account Integration - GCP - Agentless Workload Scanning via Terraform
-
-Steps:
-- [Integrating agentless workload scanning for Google Cloud organization account with Terraform](https://docs.fortinet.com/document/forticnapp/latest/administration-guide/864700/integrating-agentless-workload-scanning-for-google-cloud-organization-account-with-terraform)
-
-1. Generate Terraform configuration
-```bash
-lacework generate cloud-account gcp agentless-workload-scanning
+lacework generate cloud-account gcp
+# Follow prompts to configure GCP integration
 ```
 
 2. Deploy Terraform configuration
@@ -201,10 +171,25 @@ terraform plan
 terraform apply
 ```
 
-### Azure Integration
+## Cloud Account Integration - Azure - Configuration, Audit Log and Agentless Workload Scanning via Terraform
 
-Docs: [Azure Integration - Automated Configuration](https://docs.fortinet.com/document/forticnapp/latest/administration-guide/948086/azure-integration-automated-configuration)
+Docs: 
+- [Lacework Generate Cloud Account Azure](https://docs.fortinet.com/document/forticnapp/latest/cli-reference/635459/lacework-generate-cloud-account-azure)
+- [Azure Integration - Guided Configuration](https://docs.fortinet.com/document/forticnapp/latest/administration-guide/948086/azure-integration-guided-configuration)
 
+1. Generate Terraform configuration
+```bash
+lacework generate cloud-account azure
+# Follow prompts to configure Azure integration
+```
+
+2. Deploy Terraform configuration
+```bash
+cd /home/cloudshell-user/lacework/azure
+terraform init
+terraform plan
+terraform apply
+```
 
 ## Validating Integrations
 
@@ -213,3 +198,56 @@ lacework cloud-account list
 ```
 
 Or verify in Console: **Settings > Integrations > Cloud Accounts**
+
+## Agent Installation
+
+## AWS Agent Installation
+
+Docs: [Lacework Agent AWS Install](https://docs.fortinet.com/document/forticnapp/latest/cli-reference/784655/lacework-agent-aws-install)
+
+The Lacework CLI provides automated agent installation methods for AWS EC2 instances.
+
+### Installation Methods
+
+**EC2 Instance Connect (ec2ic):**
+```bash
+lacework agent aws-install ec2ic --instance-id i-1234567890abcdef0 --region us-east-1
+```
+
+**EC2 SSH (ec2ssh):**
+```bash
+lacework agent aws-install ec2ssh --instance-id i-1234567890abcdef0 --region us-east-1 --ssh-user ec2-user
+```
+
+**EC2 Systems Manager (ec2ssm):**
+```bash
+lacework agent aws-install ec2ssm --instance-id i-1234567890abcdef0 --region us-east-1
+```
+
+### Verify Agent Installation
+
+```bash
+lacework agent list
+```
+
+## GCP Agent Installation
+
+Docs: [Lacework Agent GCP Install](https://docs.fortinet.com/document/forticnapp/latest/cli-reference/965206/lacework-agent-gcp-install)
+
+The Lacework CLI provides automated agent installation methods for GCP instances.
+
+```bash
+lacework agent gcp-install
+#   -h, --help   help for gcp-install
+```
+
+## SSH-based Agent Installation (eg. for Azure)
+
+Docs: [Lacework Agent Install](https://docs.fortinet.com/document/forticnapp/latest/cli-reference/178682)
+
+The Lacework CLI provides automated agent installation methods via SSH.
+
+```bash
+lacework agent install
+#   -h, --help   help for azure-install
+```

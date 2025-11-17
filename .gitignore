@@ -59,3 +59,8 @@ secrets/
 .gcloud/
 .azure/
 
+# Notes / Troubleshooting
+NOTES.md
+notes.md
+*.notes
+
