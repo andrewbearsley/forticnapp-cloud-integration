@@ -1,0 +1,61 @@
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*~
+
+# Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Sensitive Files
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+api_key.json
+*api_key*.json
+*credentials*.json
+*.env
+.env
+secrets/
+*.secret
+
+# Temporary Files
+*.tmp
+*.log
+*.bak
+*.cache
+
+# Cloud Shell
+.aws/
+.gcloud/
+.azure/
+
