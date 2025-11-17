@@ -157,17 +157,49 @@ cd /home/cloudshell-user/lacework/aws
 terraform init
 terraform plan
 terraform apply
-### GCP Integration - Automated Configuration
-
-Docs: [Google Cloud Integration - Automated Configuration](https://docs.fortinet.com/document/forticnapp/latest/administration-guide/756723/google-cloud-integration-automated-configuration)
-
-1. Get a temporary access token for the Google Cloud Shell
-```bash
-gcloud auth print-access-token
 ```
 
-2. Run Automated Configuration from FortiCNAPP Console
+## Cloud Account Integration - GCP - Inventory and Audit Logging via Terraform
 
+### GCP Integration - Guided Configuration
+Docs: [GCP Integration - Guided Configuration](https://docs.fortinet.com/document/forticnapp/latest/administration-guide/191526/gcp-integration-guided-configuration)
+
+1. Generate Terraform configuration
+```bash
+lacework generate cloud-account gcp  \
+ --configuration --configuration_integration_name ConfigIntegName \
+ --audit_log --use_pub_sub --audit_log_integration_name AuditLogIntegName \
+ --organization_integration         \
+ --organization_id OrganizationId   \
+ --project_id ProjectId             \
+ --noninteractive
+ ```
+
+ 2. Deploy Terraform configuration
+```bash
+cd /home/cloudshell-user/lacework/gcp
+terraform init
+terraform plan
+terraform apply
+```
+
+## Cloud Account Integration - GCP - Agentless Workload Scanning via Terraform
+
+Steps:
+- [Integrating agentless workload scanning for Google Cloud organization account with Terraform](https://docs.fortinet.com/document/forticnapp/latest/administration-guide/864700/integrating-agentless-workload-scanning-for-google-cloud-organization-account-with-terraform)
+
+1. Generate Terraform configuration
+```bash
+lacework generate cloud-account gcp agentless-workload-scanning
+```
+
+2. Deploy Terraform configuration
+```bash
+cd /home/cloudshell-user/lacework/gcp
+terraform init
+terraform plan
+terraform apply
+```
 
 ### Azure Integration
 
