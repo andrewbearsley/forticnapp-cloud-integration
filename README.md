@@ -44,7 +44,7 @@ lacework configure -j [path_to_api_key.json]
 lacework account list
 ```
 
-## Cloud Account Integration - AWS Control Tower - AWS Integration for inventory and audit logging via CloudFormation
+## AWS with Control Tower - integration for inventory and audit logging via CloudFormation
 
 For AWS Organizations Using AWS Control Tower, cloudformation is recommended for the AWS Integration.
 
@@ -113,12 +113,10 @@ aws iam list-roles --query "Roles[?contains(RoleName, 'laceworkcwssarole')].Arn"
 }
 ```
 
-## Terraform For AWS CloudShell (Azure and GCP have Terraform pre-installed in their cloud shells)
-
-### AWS CloudShell
+### Install Terraform in CloudShell
 
 ```bash
-# Download and install Terraform (replace VERSION with latest, e.g., 1.6.0)
+# Download and install Terraform
 VERSION=$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform | jq -r -M '.current_version')
 wget https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_linux_amd64.zip
 unzip terraform_${VERSION}_linux_amd64.zip -d "$HOME/bin"
@@ -128,7 +126,7 @@ rm terraform_${VERSION}_linux_amd64.zip
 terraform version
 ```
 
-## Cloud Account Integration - AWS - Agentless Workload Scanning via Terraform
+## AWS - Agentless Workload Scanning via Terraform
 
 Docs:
 - [Prerequisites](https://docs.fortinet.com/document/forticnapp/latest/administration-guide/122712/prerequisites)
@@ -150,7 +148,7 @@ terraform plan
 terraform apply
 ```
 
-## Cloud Account Integration - GCP - Configuration, Audit Log and Agentless Workload Scanning via Terraform
+## GCP - Configuration, Audit Log and Agentless Workload Scanning via Terraform
 
 ### GCP Integration - Guided Configuration
 Docs: 
@@ -171,7 +169,7 @@ terraform plan
 terraform apply
 ```
 
-## Cloud Account Integration - Azure - Configuration, Audit Log and Agentless Workload Scanning via Terraform
+## Azure - Configuration, Audit Log and Agentless Workload Scanning via Terraform
 
 Docs: 
 - [Lacework Generate Cloud Account Azure](https://docs.fortinet.com/document/forticnapp/latest/cli-reference/635459/lacework-generate-cloud-account-azure)
